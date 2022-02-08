@@ -1,0 +1,63 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\selectlanguage}[1]{\relax}
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem{VORONOID}
+Aurenhammer, F.: \emph{Voronoi Diagrams – A survey of a Fundamental Geometric
+  Data Structure}. ACM Computing Surveys, 1991.
+
+\bibitem{MARCHINGCUBESCASE}
+Chernyaev, E.~V.: \emph{Marching Cubes 33: Construction of Topologically
+  Correct Isosurfaces}. Institute for High Energy Physics, 1995.
+
+\bibitem{HUGOPERLIN}
+Elias, H.: Perlin Noise.
+  \url{http://freespace.virgin.net/hugo.elias/models/m_perlin.htm}.
+
+\bibitem{V2}
+Farbrausch: V2 synthesizer system. \url{http://1337haxorz.de/products.html}.
+
+\bibitem{KASKADY}
+Geiss, R.; Thompson, M.: \emph{Cascades}. NVIDIA Corporation, 2006.
+
+\bibitem{KKRUNCHY}
+Giesen, F.: kkrunchy. \url{http://www.farbrausch.de/~fg/kkrunchy/}.
+
+\bibitem{FLS}
+Image-Line: FL Studio. \url{http://www.image-line.com/index.html}.
+
+\bibitem{CATMULLROM}
+Joy, K.~I.: \emph{Catmull-Rom splines}. 2002.
+
+\bibitem{MARCHINGCUBES}
+Lewiner, T.; Lopes, H.; Vieira, A.~W.; aj.: \emph{Efficient implementation of
+  Marching Cubes’ cases with topological guarantees}. Laboratório MatMídia,
+  2003.
+
+\bibitem{OBFUSKACE}
+Mateas, M.; Montfort, N.: \emph{A Box, Darkly: Obfuscation, Weird Languages,
+  and Code Aesthetics. Proceedings of the 6th Digital Arts and Culture
+  Conference}. IT University of Copenhagen, 2005.
+
+\bibitem{MILET}
+Milet, T.: \emph{Grafické intro 64KB s použitím OpenGL [bakalářská
+  práce]}. FIT VUT, 2010.
+
+\bibitem{UPX}
+Molnár, L.; Reiser, J.~F.: Ultimate Packer for eXecutables.
+  \url{http://upx.sourceforge.net/}.
+
+\bibitem{KENPERLIN}
+Perlin, K.: Making Noise. \url{http://www.noisemachine.com/talk1/index.html}.
+
+\bibitem{VOROWEB}
+Scott, J.: Making Cellular Textures.
+  \url{http://www.blackpawn.com/texts/cellular/default.html}.
+
+\end{thebibliography}

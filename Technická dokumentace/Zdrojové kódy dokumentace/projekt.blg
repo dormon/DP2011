@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: projekt.aux
+The style file: czechiso.bst
+Database file #1: literatura.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 140733193391032.
+Warning--missing publisher in CATMULLROM
+You've used 14 entries,
+            3151 wiz_defined-function locations,
+            723 strings with 6859 characters,
+and the built_in function-call counts, 4651 in all, are:
+= -- 276
+> -- 140
+< -- 0
++ -- 67
+- -- 40
+* -- 191
+:= -- 568
+add.period$ -- 28
+call.type$ -- 14
+change.case$ -- 47
+chr.to.int$ -- 0
+cite$ -- 15
+duplicate$ -- 469
+empty$ -- 522
+format.name$ -- 44
+if$ -- 1001
+int.to.chr$ -- 0
+int.to.str$ -- 14
+missing$ -- 124
+newline$ -- 52
+num.names$ -- 28
+pop$ -- 313
+preamble$ -- 1
+purify$ -- 47
+quote$ -- 0
+skip$ -- 192
+stack$ -- 0
+substring$ -- 71
+swap$ -- 187
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 42
+warning$ -- 1
+while$ -- 28
+width$ -- 16
+write$ -- 113
+(There was 1 warning)

@@ -1,0 +1,91 @@
+%========================
+%UVOD
+
+\chapter{Úvod}
+Cílem této práce je vytvoření grafického intra s omezenou velikostí.
+Práce pojednává o technikách minimalizace velikosti spustitelného souboru pomocí nastavení překladu, komprimování výsledného souboru, vhodného programátorského stylu a generování obsahu podle šablon.
+Zabývá se generováním grafického obsahu jako jsou textury a geometrie.
+V práci je popsán způsob generování vícerozměrného šumu.
+Dále se zabývá vytvořením vícerozměrných Voroného diagramů.
+Další část práce se zabývá tvorbou textur pomocí šumu, Voroného diagramů, barevných přechodů a transformačních operací.
+Následuje sekce o generování geometrie intra.
+V této části je popsán převod objemové reprezentace tělesa na povrchovou reprezentaci.
+Spadají sem algoritmy Marching cubes a Marching tetrahedra.
+Dále sem patří vyhlazení povrchu a optimalizace ukládání dat produkovaných těmito algoritmy.
+Poté se práce zabývá bump mappingem, texturováním, tvorbou skyboxu, částicovými a elastickými systémy, vodou, terénem a pohybem kamery.
+
+\section{OpenGL}
+OpenGL je v práci využito pro vykreslování veškeré grafiky.
+OpenGL („Open Graphics Library“) je nízkoúrovňová grafická knihovna.
+Za vytvořením knihovny stojí společnost Silicon Graphics, Inc., jež ji uvedla v roce 1992.
+Knihovna od počátku vyšla v několika verzích, přičemž verze jsou zpětně kompatibilní.
+Obsahuje stovky funkcí umožňujících specifikaci a manipulaci s grafickými daty.
+V dřívějších dobách byla kreslící pipeline fixní a nebylo tedy možné ji jakkoliv upravit.
+Od verze OpenGL 2.0 je k dispozici jazyk GLSL, kterým lze kreslicí pipeline naprogramovat a změnit její chování.
+%V práci je jazyk GLSL využíván pro různé grafické efekty.
+
+\section{Intro}
+Grafické intro bývá krátké video vytvořené programem.
+Video vytvořené aplikací nebývá nijak interaktivní.
+Důležitou charakteristikou programu je jeho malá velikost.
+Existuje několik kategorií velikostí od 1KB přes 64KB až po neomezenou velikost.
+Program obvykle nepotřebuje ke svému běhu žádná externí data, jako jsou obrázky textur a soubory s modely či hudbou.
+Klíčovým prvkem intra je kontrast mezi malou velikostí programu a množstvím a silou účinku prezentovaných grafických a zvukových informací.
+Tento kontrast většinou poukazuje na schopnosti daného programátora nebo skupiny, kteří intro vytvořili.
+U větších skupin vznikají i různé podpůrné nástroje například pro komponování a přehrávání hudby.
+Zdrojové kódy programů bývají většinou tajné a autoři si je bedlivě střeží.
+Intra se objevují nejčastěji jako programy vytvořené pro zábavu či soutěž.
+Vyskytují se ale i jako komerční prezentace.
+
+Obsah intra může být krátký příběh, předvedení myšlenky, prezentace schopností autorů, ukázání svých uměleckých schopností, propagace k filmu, reklama nebo jiné věci.
+Pokud se jedná o intro vytvořené pro zábavu (nejčastější případ) není obsah intra nikterak svázán a náplň je zcela v rukou autora a záleží jen na něm, co bude jeho intro zobrazovat.
+Časté jsou abstraktní scény, které nemají mnoho společného s realitou, poskytují však vydatný grafický zážitek.
+Abstraktní intra se nejčastěji objevují u velmi malých velikostí programů.
+Nevýhodou těchto typů inter bývá, že ač jsou grafické efekty sebelepší časem, s vývojem grafického hardwaru, stejně zastarávají.
+Proto bývá důležitým prvkem intra příběh.
+Silný příběh může hodnotu intra značně zvýšit. Nicméně to platí i naopak.
+
+Grafická intra jsou fenoménem.
+Internet jich obsahuje tisíce a komunita kolem inter je velmi živá.
+Pořádají se různé soutěže s oceněními.
+Do budoucna lze očekávat, že tvorba inter bude pokračovat.
+S přibývajícím výkonem zobrazovacího hardwaru porostou kvalita vizuálních efektů a možnosti inter, avšak vždy bude nejvíce záležet na schopnostech autora.
+
+\section{Velikost 64KB}
+Velikost 64KB se může zdát pro aplikaci zobrazující grafiku velmi málo, když i velmi jednoduché programy mohou po kompilaci zabírat velikost několika megabajtů.
+Toto se často týká vysokoúrovňových jazyků a vysokoúrovňových programovacích prostředků.
+Tyto vysokoúrovňové nástroje poskytují programátorský komfort, ale obvykle nedbají na vý\-sled\-nou velikost aplikace a ani na její rychlost.
+V podstatě je mezi kódem programátora a výslednými instrukcemi procesoru několik mezivrstev.
+V samotných aplikacích se tak vyskytují spousty nevyužitého kódu a statických dat.
+Když se řekne počítačová grafika, většině uživatelů se vybaví počítačové hry a ty běžně zabírají gigabajty dat, což je i sto tisíckrát více než obvyklá velikost inter.
+Toto je jedna z nejdůležitějších (ne-li nejdůležitější) charakteristik intra.
+
+Základem malé velikosti inter je tedy odstranění všech nevyužitých částí.
+Toho lze dosáhnou vhodným (nízkoúrovňovým) programovacím jazykem jako je jazyk C nebo assembler.
+Dále vhodným nastavením překladače a vhodným programátorským stylem.
+Další velkou úsporu místa lze dosáhnout generováním grafického obsahu.
+Místo, aby se data jako textury a modely ukládaly do konstantních dat, uloží se jen způsob jejich vytvoření.
+Poslední možností je výslednou aplikaci zkomprimovat. 
+
+\section{Příběh}
+Od začátku jsem chtěl intro, které zobrazuje přírodu.
+Nechtěl jsem intro, které je příliš abstraktní a mechanické.
+Intro, ve kterém se vyskytují nereálné mechanické objekty.
+Proto jsem zvolil mírný motiv - přírodu.
+V intru jsou nakonec čtyři scény.
+První z nich je vysokohorská scéna se zasněženými vrcholky štítů.
+Hory jsou snímány z ptačího pohledu a jsou nasvíceny ranním sluncem.
+Následuje přímořská scéna.
+V ní je mírná pahorkatina a mořská hladina.
+Scéna je osvícena zapadajícím sluncem.
+Ve scéně se kamera ponoří do stráně.
+Následuje scéna s tunelem, který směřuje dolů, do kopce.
+Tunel je zarostlý a vyskytuje se v něm pavučina.
+Na konci je voda.
+Poslední scéna je v jeskyni.
+Jeskyně je z části zatopena.
+Do jeskyně proniká voda v podobě několika vodopádů.
+Jsou zde zavěšeny tři barevné koberce, pod kterými jsou rozházeny bedny.
+Scéna ke konci intra vybouchne.
+
+

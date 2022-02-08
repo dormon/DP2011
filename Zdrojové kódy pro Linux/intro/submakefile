@@ -1,0 +1,77 @@
+# 64kB opengl intro
+# makefile pro moduly
+# @author Tomas Milet, xmilet01
+# @file makefile
+# @date 23.12.2009
+# @version 0.1
+
+C=g++
+WINEC=wing++
+
+CPAR=-mmmx -msse3 -O2 -s -Os
+CWARN=-W -Wall #-Wall									\
+			-W										\
+			-pedantic							\
+			-Wshadow							\
+			-Wpointer-arith
+
+SOURCE=${wildcard *.c}
+HEADER=${wildcard *.h}
+MYLIB=${SOURCE:%.c=%.o}
+
+CONFIGS=debug release
+ifeq (,$(findstring $(CONFIG),$(CONFIGS)))
+  CONFIG=debug
+endif
+
+ifeq (,$(findstring debug,$(CONFIG)))
+  CPAR=-Os -mmmx -msse3
+else
+  CPAR=-g -D_DEBUG
+endif
+
+INCDIR=	-I.									\
+				-I../std						\
+				-I../gen						\
+				-I../mymath					\
+				-I../terain					\
+				-I../adt						\
+				-I../app						\
+				-I../enviroment			\
+				-I../data						\
+				-I../marchingtetra	\
+				-I../mymem					\
+				-I../shaderprogram	\
+				-I../texturefactory	\
+				-I../index					\
+				-I../elastic				\
+				-I../physics				\
+				-I../gpu						\
+				-I../music
+
+LIBDIR=-L/usr/lib
+LIB=
+LL=$(LIBDIR) $(LIB)
+
+OUTDIR=../output/
+
+CFLAGS=$(CPAR) $(CWARN) ${INCDIR}
+
+all: ${MYLIB}
+	cp *.o ${OUTDIR}
+
+wingcc: *.c *.h
+	${WINEC} ${CFLAGS} -c *.c
+	cp *.o ${OUTDIR}
+
+${SOURCE}: ${HEADER}
+
+${MYLIB}: ${SOURCE} ${HEADER}
+	${C} ${CFLAGS} -c ${SOURCE}
+
+
+
+clean:
+	rm -f *.o
+	rm -f tags
+

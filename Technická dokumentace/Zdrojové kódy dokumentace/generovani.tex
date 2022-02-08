@@ -1,0 +1,128 @@
+%==============================
+%generovani
+
+\chapter{Generování grafického obsahu}\label{chap:generovani}
+Jak již bylo řečeno v předcházející kapitole, generování grafického obsahuje je pro intra klíčové.
+Generují se textury, generují se modely, generuje se geometrie.
+Generuje se rozmístění modelů ve scéně.
+Generování grafických objektů sebou přináší výhody malé velikosti a parametrizování generování.
+Můžeme si tedy například uložit jednu šablonu stromu a vhodným měněním parametrů generovat pokaždé jiný strom.
+Nevýhodou generování je delší nahrávací čas.
+Vytvoření kvalitní textury může být časově velmi náročné, z tohoto důvodu mívají intra delší inicializační časy.
+
+\input{sum}
+
+\section{Více dimenzí}
+Jelikož se v této práci často pracuje s vícerozměrnými daty (příkladem může být výše zmíněný vícerozměrný šum), předvedeme si zde i postup, jak s těmito daty jednotně pracovat.
+Vícerozměrná data budeme reprezentovat jednorozměrným seznamem (polem) prvků.
+Způsob uspořádání prvků vícerozměrných dat do jednorozměrného seznamu je ukázán na obrázku \ref{fig:dimenze}, kde je předvedeno uspořádání trojrozměrných dat.
+Index do $d$ rozměrného pole $I=(i_1,i_2,\dotsc,i_d)$ se skládá z $d$ složek (čísel) $i_n$, z nichž každé indexuje jinou dimenzi (složka $i_1$ nejnižší a složka $i_d$ nejvyšší).
+Rozměry (výška, šířka, ...) dat označme $r=(r_1,r_2,\dotsc,r_d)$.
+Přepočet na index $J$ do jednorozměrného pole je dán vztahem:
+\begin{equation}
+\label{eq:index}
+J=i_1 + i_2 \cdot r_1 + i_3 \cdot r_1 r_2 + \dotsc = \sum_{k=1}^{d}\left(i_k \prod_{h=1}^{k-1}r_h \right)
+\end{equation}
+Vztah \ref{eq:index} můžeme zefektivnit a převést na rekurentní vztah:
+\begin{eqnarray*}
+\label{eq:fastindex}
+J_1 &=& i_d \\
+J_n &=& J_{n-1} \cdot r_{d-n+1} + i_{d-n+1} \\
+J   &=& J_d
+\end{eqnarray*}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=5cm,keepaspectratio]{obr/dimenze.pdf}
+\caption{Uspořádání 3D dat}
+\label{fig:dimenze}
+\end{figure}
+
+\input{voronoid}
+
+\input{textury}
+
+\input{geometrie}
+
+\input{bump}
+
+
+\section{Texturování}
+Postup vytvoření textur jsme si popsali v sekci \ref{sec:texture}.
+Nyní nastává otázka, jak texturu nanést na povrch.
+Pokud použijeme trojrozměrnou texturu je nanesení jednoduché.
+Souřadnice vrcholů polygonů jsou zároveň i souřadnice do textury (texturovací koordináty). 
+Texturovací koordináty pro trojrozměrnou texturu můžeme snadno transformovat pomocí transformační matice.
+Texturu můžeme roztahovat, otáčet a posouvat.
+Navíc můžeme objekt, na který je nanesena trojrozměrná textura různě deformovat, vytvářet do něj díry nebo přidávat polygony.
+Nemusíme se přitom starat o přepočet koordinát.
+Nevýhoda trojrozměrné textury spočívá v její velikosti.
+Povrch objektu probíhá jen zlomkem celkového objemu textury.
+Z velikosti plyne i doba na vygenerování takové textury.
+Další nevýhoda spočívá v nesnadné konstrukci bump mapy.
+Povrch objektu může bodem textury procházet různě natočen, proto bychom potřebovali pro každé natočení jinou bump mapu.
+U dvojrozměrných textur je výpočet bump mapy jednoduší.
+Dvojrozměrné textury mají pouze dvě složky tex\-tu\-ro\-va\-cích koordinát, proto je nutné je vhodně rozmístit po povrchu objektu.
+Rozmístění texturovacích koordinát ale není jednoduché.
+Obvykle bývají rozmísťovány ručně pomocí grafika.
+Algoritmus pro rozmístění koordinát na netriviální objekt by byl příliš složitý a zabíral by místo.
+Proto budeme textury na trojrozměrné objekty nanášet jinak.
+
+\subsection{Triplanární texturování}
+Triplanární mapování textur popsané v \cite{KASKADY} používá pro obarvení objektu tři různé textury.
+Textury jsou nanášené podél tří souřadných osy $(x,y,z)$.
+Pokud je normála povrchu v daném bodě $(x,y,z)$ například $(1,0,0)$, použije se textura pro osu x.
+Souřadnice pro tuto texturu budou poté $(y,z)$.
+Přičemž složka $y$ představuje $u$ složku texturovací koordináty (směr v ose x v textuře).
+Pro normálu $(0,1,0)$ se použije textura pro osu y.
+Texturovací koordináty budou v takovém případě $(u,v)=(x,z)$.
+Pokud normála povrchu není rovnoběžná s jednou ze souřadných os, použije se vícero textur, které se mezi sebou smíchají.
+Uvažujme bod povrchu objektu $P=(x,y,z)$ s normálou $N=(a,b,c)$ a tři textury $T_x,T_y,T_z$ pro tři souřadné osy.
+Dále uvažujme funkci $f:T \times R^2 \to \langle 0,1 \rangle ^3$.
+Funkce $f$ vrací pro texturu $T$ a souřadnice reprezentované dvojicí barvu.
+Výpočet barvy je pak dán následujícím vztahem:
+\begin{equation}
+\label{eq:triplanar}
+C=\frac{|a|}{S} \cdot f(T_x,(y,z)) + \frac{|b|}{S} \cdot f(T_y,(x,z)) + \frac{|c|}{S} \cdot f(T_z,(x,y))
+\end{equation}
+Ve vztahu \ref{eq:triplanar} je $S=|a|+|b|+|c|$ normalizace vah.
+Složky $a,b,c$ normály udávají váhy pro vážený průměr.
+
+Triplanární texturování můžeme modifikovat.
+Místo abychom požívali tři textury pro tři souřadné osy, můžeme použít šest a rozlišovat směr osy.
+Pro otexturování jeskyně a přívodního tunelu ale zvolíme jiný postup.
+Použijeme také tři textury, ale ne v souřadných osách.
+Jednu texturu použijeme na stropy (kladná osa $y$).
+Další na zem (záporná osa $y$).
+Poslední textura je mapována na stěny.
+Vztah pro výpočet výsledné barvy pro takto rozmístěné textury je obdobný vztahu \ref{eq:triplanar}.
+
+\input{skybox}
+
+\input{particle}
+
+\input{elastic}
+
+\input{kolize}
+
+\input{voda}
+
+\input{teren}
+
+\input{kamera}
+
+\section{Texty}
+Texty jsou v intru spíše doprovodné prvky.
+Font textu je uložen ve statických datech.
+Jedná se o malý bitový obrázek s vybranými znaky.
+Z obrázku vytvoříme čtverce, na které je namapována textura jednoho písmena.
+Font, který je v intru použit je zobrazen na obrázku \ref{fig:font}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=10cm,keepaspectratio]{obr/font.jpg}
+\caption{Písmenka fontu.}
+\label{fig:font}
+\end{figure}
+
+

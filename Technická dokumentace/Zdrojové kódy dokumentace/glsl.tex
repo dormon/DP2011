@@ -1,0 +1,45 @@
+%%%%%%%%%%%%%%
+% glsl
+
+\section{GLSL}
+
+V intru jsem použil sedm shader programů.
+Tři z nich používají i geometry shader.
+Jsou to shader programy využívané částicovými systémy.
+O vytvoření částice (plošky) se stará geometry shader.
+Pro částicové systémy je vyhrazen vlastní shader program.
+Pomocí uniformu lze nastavit, jestli se částice natáčí ke kameře či udržuje svoji orientaci.
+
+Shader program, který v intru používáme pro vykreslení jeskyně má nejsložitější část fragment shader.
+Jeskyně obsahuje poměrně malé množství trojúhelníků a přesto je nej\-slo\-ži\-těj\-ší na vykreslení.
+Snížením počtu trojúhelníků bychom složitost nesnížili.
+Jednou možností je optimalizovat fragment shader.
+Vhodnou optimalizací může být minimalizace větvení programu použitím vestavěných funkcí.
+Příklad větvení:
+\begin{verbatim}
+if (red_flag == 1){
+  color = vec3(1,0,0);
+}else{
+  color = texture(wall,coord);
+}
+\end{verbatim}
+Výše uvedený úsek programu obsahuje větvení pomocí uniformu $red\_flag$.
+Můžeme se větvení zbavit využitím vestavěné funkce $mix$.
+\begin{verbatim}
+color=mix(vec3(1,0,0),texture(wall,coord),red_flag);
+\end{verbatim}
+Další funkce, které se dají použít pro odstranění větvení jsou $min,max,clip,clamp$ a další.
+Jinou možností je omezení používání množství normalizační funkce: $normalize$.
+Urychlení vykreslení scény se složitým fragment shaderem můžeme udělat i jinak.
+Urychlení spočívá v omezení množství fragmentů, které musíme vykreslit.
+Při vykreslování se stává, že jsou trojúhelníky kresleny ve špatném pořadí.
+Vykreslujeme některé fragmenty, které jsou později přepsány novými hodnotami.
+Řešení může existovat v algoritmu řazení trojúhelníků.
+Potom stačí vykreslovat od nejbližších trojúhelníků.
+V případě, že je nějaká část trojúhelníku zakryta, je vykreslování zastaveno hloubkovým testem.
+Řazení trojúhelníků je ale složité na výpočet a zbytečně by nám zabralo místo v programu.
+Jeskyně ale obsahuje málo trojúhelníků, proto vykreslíme nejprve hloubkový buffer s vypnutým zápisem barvy.
+Tím se přeskočí část s fragment shaderem.
+Poté vykreslíme scénu znovu, tentokrát již s povoleným zápisem barvy.
+Tímto zajistíme, že se výpočet fragment shaderu provádí jen pro nezbytně nutné množství fragmentů.
+

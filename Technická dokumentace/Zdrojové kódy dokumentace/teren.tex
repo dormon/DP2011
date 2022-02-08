@@ -1,0 +1,12 @@
+%%%%%%%%%%%%%%%%%%%%%
+% teren
+
+\section{Terén}
+
+Terén budeme v intru používat ve dvou scénách: hory a přímořská oblast.
+Geometrie terénu je vytvořena z mřížky trojúhelníků.
+Body trojúhelníku na ose $y$ reprezentující výšku hor vychýlíme pomocí výškové mapy.
+Výšková mapa je dvojrozměrné pole, kde hodnoty v prvcích neudávají barvu ale výšku.
+Pro vygenerování výškové mapy můžeme použít algoritmy popsané v sekci \ref{sec:texture} o generování textur.
+Velikost pole určuje počet trojúhelníků.
+Pro pole velikost $w \times h$ je potřeba $2\cdot(w-1)\cdot(h-1)$.

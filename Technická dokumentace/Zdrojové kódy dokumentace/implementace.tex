@@ -1,0 +1,46 @@
+%%%%%%%%%%%%%%%
+% implementace
+
+\chapter{Implementace}
+
+Většinu projektu jsem implementoval pod systémem Ubuntu Linux.
+Pro vytvoření okna pod Linuxem je použita knihovna SDL.
+U systému Windows je to WINAPI.
+Pro spuštění programu je vyžadováno OpenGL minimálně ve verzi 3.3.
+Program jsem ladil pro Windows 7.
+Verze pro Linux neobsahuje hudbu a je také větší.
+Důvod je ten, že knihovna pro přehrávání hudby byla napsána pro systém Windows.
+Také komprimační program kkrunchy slouží pro komprimování binárních spustitelných souborů systému Windows.
+
+\input{hudba}
+
+\input{scene}
+
+\input{glsl}
+
+\input{rozdeleni}
+\newpage
+\subsection{FPS}
+
+V grafu zobrazeném na obrázku \ref{fig:fps} můžeme vidět průběh počtu snímku za sekundu (FPS) v čase.
+V prvních dvou částech grafu FPS hodně kolísá.
+V ostatních částech FPS udržuje přibližně konstantní hodnotu.
+První dvě scény zobrazují horskou a přímořskou krajinu.
+Každá z těchto scén je složena z 130 050 trojúhelníků.
+Záleží proto na pozici a záběru kamery, jak velká bude hodnota FPS.
+Lokální maxima poukazují na místa v intru, kde kamera zabírá jen zlomek scény.
+Příkladem může být špička v druhé scéně.
+V přímořské oblasti se kamera chvíli dívá jen na skybox. 
+To vysvětluje velký nárůst FPS.
+V posledních dvou scénách: tunelu a jeskyně je řádově méně trojúhelníků.
+Proto tolik nezávisí na záběru kamery.
+První dvě scény jsou náročnější z pohledu množství trojúhelníků.
+Poslední dvě scény pak z pohledu shader programu, který je složitější.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=15cm,keepaspectratio]{obr/fps.pdf}
+\caption{Průběh počtu snímku za sekundu v čase.
+Graf je rozdělen do čtyř částí podle scén.}
+\label{fig:fps}
+\end{figure}

@@ -1,0 +1,53 @@
+%%%%%%%%%%%%%%%
+% kolize
+
+\section{Kolize}
+
+Bez kolizí se neobejde téměř žádná fyzikální simulace.
+Například částicový systém díky kolizím interaguje s okolím.
+Kolize bývají složité na výpočet a proto je potřeba algoritmy zefektivňovat.
+Jedním z vylepšení algoritmů detekcí kolizí jsou obalová tělesa.
+Dalším vylepšením může být hierarchické rozdělení scény.
+
+V intru jsou kolize počítány jen pro částicové a elastické systémy.
+Tyto systémy kolidují s geometrií jeskyně a tím se odráží od jejího povrchu.
+Pro jednoduchost budeme kolize počítat jen pro body.
+Abychom zjistili, zda je bod v kolizi s jeskyní, musíme zjistit, se kterým trojúhelníkem bod koliduje.
+Tento přístup by nebyl příliš rychlý a implementace algoritmu by zabrala příliš místa.
+Místo toho použijeme jednoduchý způsob.
+Souřadnice bodu, pro který počítáme kolizi, můžeme použít jako index do volumetrické reprezentace jeskyně.
+Pokud hodnota na souřadnicích bodu překročí určitý práh (stejný práh je použit i pro algoritmus Marching Tetrahedra) je v daném místě kolize.
+
+Nejprve jsem navrhl obecný algoritmus, který dokázal získat hodnotu pro neceločíselné souřadnice z $d$ dimenzionálního pole.
+Tento algoritmus byl rekurzivní, relativně malý a díky své obecnosti znovupoužitelný.
+Nicméně nebyl příliš rychlý.
+Proto jsem navrhl algoritmus, který je rychlejší, ale pracuje jen pro trojrozměrné pole.
+$P_0=(p_0,p_1,p_2)$ je bod, pro který počítáme kolizi.
+Nejprve přesuneme bod do rozsahu $r=(r_0,r_1,r_2)$ (šířka, výška, délka) podle vztahu: $P_1=((P_0 \% r) + r) \% r$.
+Operace modulo $\%$ pracuje po složkách vektoru.
+Poté získáme nejvyšší celočíselný index $I=(i_0,i_1,i_2)=\lfloor P_1 \rfloor$, který je menší než $P_1$.
+Rozdíl $v=(v_0,v_1,v_2)=P_1-I$ udává poměr míchání hodnot na indexech o jedničku vyšších než $I$ v některé ose.
+Hodnota $h(P_0)$ trojrozměrného pole v bodě $P_0$ je dána vztahem:
+\begin{eqnarray*}
+\label{eq:kolid}
+h_0    &=& (1-v_0)h(I)      + v_0h(I_{x}) \\
+h_1    &=& (1-v_0)h(I_y)    + v_0h(I_{yx}) \\
+h_2    &=& (1-v_0)h(I_z)    + v_0h(I_{zx}) \\
+h_3    &=& (1-v_0)h(I_{zy}) + v_0h(I_{zyx}) \\
+h_{01} &=& (1-v_1)h_0       + v_1h_1 \\
+h_{23} &=& (1-v_1)h_2       + v_1h_3 \\
+h(P_0) &=& (1-v_2)h_{01}    + v_2h_{23}
+\end{eqnarray*}
+Dolní sufix indexu $I$ udává, ke které složce indexu $I$ je přičtena jednička.
+Například pro index $I_{zx}=(i_0+1,i_1,i_2+1)$.
+
+Abychom mohli správně reagovat na kolizi, musíme znát i normálu povrchu.
+Normálu povrchu máme uloženou také v trojrozměrném poli, proto můžeme použít stejný algoritmus.
+Reakce na kolizi spočívá v přesunutí bodu na povrch jeskyně a otočení jeho rychlosti podle normály.
+Úhel dopadu se přitom musí rovnat úhlu odrazu.
+Výslednou rychlost ještě zmenšíme o ztráty.
+Ovlivnění rychlosti u částicových systému je přímočaré.
+U elastických systémů si ale musíme dát pozor.
+Ovlivňujeme rychlosti uzlů externě, mimo výpočetní model elastického systému.
+Toto může potenciálně vést ke vzniku nestability.
+

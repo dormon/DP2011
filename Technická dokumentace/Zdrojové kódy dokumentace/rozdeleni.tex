@@ -1,0 +1,118 @@
+%%%%%%%%%%%%%%%%%%%%
+% rozdeleni
+
+\section{Rozdělení projektu a FPS}
+Zdrojové kódy přesahují 20 000 řádků kódu, proto je bylo potřeba kvůli přehlednosti rozdělit do logických celků.
+Projekt je rozdělen do velkého množství knihoven.
+Ve zdrojových kódech pro Linux jsou knihovny rozděleny do několika složek:
+\begin{description}
+
+\item[app] V této složce jsou funkce pro obsluhu vytvoření okna a časování.
+\begin{description}
+\item[winwindow] Knihovna obsahuje funkce pro vytvoření okna, nastavení obslužných funkcí.
+Dále obsahuje řízení časem.
+Knihovna je preprocesorem rozdělena do dvou částí.
+Jedna část je pro systém Windows 7 a obsahuje kód ve WINAPI.
+Druhá část je pro systém Linux a využívá funkcí knihovny SDL.
+\item[main] Obsahuje hlavní část programu, většinu inicializací a krokování.
+Obsahuje kreslící funkci.
+\end{description}
+
+\item[adt] Složka obsahuje abstraktní datové typy.
+\begin{description}
+\item[list2] Obsahuje obecný dvousměrný seznam.
+\item[relist] Reprezentuje obecné pole s automatickým zvětšování velikost.
+Oproti {\bf list2} je rychlejší čtení, ale pomalejší vkládání doprostřed pole.
+\item[ntree] Představuje obecný strom a obslužné funkce.
+\item[adtfce, adt] Obsahují rozhraní a funkce společné pro abstraktní datové typy.
+\end{description}
+
+\item[elastic] Složka obsahuje pouze jednu knihovnu, která implementuje elastický systéme a jeho obslužné funkce
+
+\item[enviroment] Ve složce nalezneme knihovny pro grafické objekty intra.
+\begin{description}
+\item[box\_swarm] Knihovna obsahuje funkce pro inicializaci, umístění, vykreslení a pře\-po\-čí\-tá\-ní haldy beden.
+\item[bubble] Knihovna obsahuje částicový systém reprezentující bublinky ve vodě.
+\item[carpet] Objekt zavěšeného koberce je obsahem této knihovny.
+\item[cave] Obsahuje funkce pro vygenerování jeskyně.
+\item[collide] Obsahuje kolizní systém.
+\item[fade] Zatmívačka, která slouží pro přechod mezi scénami
+\item[font] Obsahuje funkce a font pro vykreslení textu.
+\item[geometry] V knihovně můžeme najít funkce pro výpočet normál a výpočet spojů pro elastický systém.
+\item[lake] Vodní hladina a obslužné funkce jsou obsaženy v této knihovně.
+\item[moss] Obsahem knihovny je objekt mechu nebo křoví.
+\item[mountain, waterside] Obsahují funkce pro vytvoření výškových map hor a přímořských kopců.
+\item[object] Soubory knihovny reprezentují obecný objekt, který využívá elastický systém.
+\item[particle] Nalezneme zde obecný částicový systém, který je využíván například v knihovně {\bf bubble}.
+\item[plant] Rostlina složená z elastického systému.
+\item[skybox] Obsahuje funkce pro vykreslení skyboxu.
+\item[skyboxgenerate] Vytvoření skyboxu je součást funkcí v souborech této knihovny.
+\item[spiderweb] Knihovna reprezentuje pavučinu.
+\item[terrain] Vykreslení a vytvoření geometrie terénu pomocí výškových map.
+\item[tunnel] Obdobně jako {\bf cave} obsahuje knihovna funkce pro vygenerování tunelu.
+\end{description}
+
+\item[gen] Složka obsahuje některé obecné algoritmy pro generování.
+\begin{description}
+\item[color] Obsahuje funkce pro práci s HSV barevným modelem.
+\item[map, colormap] Funkce pro práci s barevným přechodem.
+\item[midpoint] Algoritmus pro generování šumu pomocí půlení intervalu.
+\item[voronoi] Generování Voroného diagramů.
+\end{description}
+
+\item[gpu] Složka obsahuje knihovny pro komunikaci s grafickou kartou.
+\begin{description}
+\item[gpuattribute] Funkce pro práci s atributy shader programu.
+\item[gpubuffer] Obsahuje funkce pro správu bufferů na grafické kartě.
+\item[gpushaderprogram] Obsahuje obslužné funkce pro shader programy.
+\item[gputexture] Inicializace a správa textur.
+\item[gputextureunit] Obsluha texturovacich jednotek.
+\end{description}
+
+\item[index] Knihovny pro práci s vícerozměrnými daty.
+\begin{description}
+\item[index] Knihovna obsahuje obecný $d$ dimenzionální index.
+\item[nsize] Rozměry $d$ dimenzionálních dat.
+\end{description}
+
+\item[marchingtetra] Složka obsahuje algoritmus Marching tetrahedra.
+\begin{description}
+\item[mt\_core] Algoritmus Marching tetrahedra.
+\item[pack] Algoritmus pro spojování společných vrcholů trojúhelníků.
+\end{description}
+
+\item[music] Složka obsahuje přehrávač a hudební soubory.
+\begin{description}
+\item[music] Funkce pro inicializace a přehrání hudby.
+\item[songs] Hudební skladby.
+\item[v2mplayer] Přehrávač hudby.
+\end{description}
+
+\item[mymath] Složka obsahuje matematické knihovny.
+\begin{description}
+\item[camera] Kamera scény.
+\item[cameracontrol] Systém pro pohyb kamery.
+\item[vector, matrix] Operace s vektory a maticemi.
+\item[stdmath] Základní matematické vztahy.
+\item[transform] Transformace scény.
+\end{description}
+
+\item[mymem] Složka obsahuje knihovnu pro práci s pamětí a zastřešuje rozdíly mezi systémy Windows a Linux.
+\item[shaderprogram] Obsahem složky jsou vertex, geometry a fragment shadery.
+\item[std] Základní funkce.
+Funkce pro generování náhodného čísla.
+Funkce pro zobrazení grafu načítání. 
+
+\item[texturefactory] Složka obsahuje knihovny pro generování textur.
+\begin{description}
+\item[colorbuffer] Obsahuje funkce pro práci s $d$ rozměrnými poli pro vytvoření textur.
+\item[convolution] Obsahuje $d$ rozměrnou konvoluci.
+\item[fastgetvalue] Obsahuje obtimalizované funkce pro přístup k $d$ rozměrným polím.
+\item[globaltransform] Obsahuje globální transformační funkce pro tvorbu textur.
+\item[localtransform] Obsahuje lokální transformační funkce pro tvorbu textur.
+\end{description}
+
+
+
+\end{description}
+
